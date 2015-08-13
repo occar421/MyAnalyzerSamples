@@ -13,7 +13,7 @@ namespace AnalyzerTests
 		public const string DiagnosticId = "PublicField";
 
 		private static readonly string Title = "Public field sucks.";
-		private static readonly string MessageFormat = "\"{0}\" is public field.";
+		private static readonly string MessageFormat = "{0} {1} public field.";
 		private static readonly string Description = "Using public field is usually bad implemention.";
 		private const string Category = "PublicField.CSharp.Suggestion";
 
@@ -38,10 +38,10 @@ namespace AnalyzerTests
 
 			if (field.Modifiers.Any(SyntaxKind.PublicKeyword) && !field.Modifiers.Any(SyntaxKind.ConstKeyword))
 			{
-				var fieldNameToken = field.DescendantNodes().OfType<VariableDeclaratorSyntax>().Single()
-					.ChildTokens().Where(x => x.IsKind(SyntaxKind.IdentifierToken)).Single();
+				var fieldNameTokens = field.DescendantNodes().OfType<VariableDeclaratorSyntax>()
+					.Select(x => x.ChildTokens().Where(xx => xx.IsKind(SyntaxKind.IdentifierToken)).Single());
 
-				var diagnostic = Diagnostic.Create(Rule, field.GetLocation(), fieldNameToken.ValueText);
+				var diagnostic = Diagnostic.Create(Rule, field.GetLocation(), string.Join(", ", fieldNameTokens.Select(x => $"\"{x}\"")), fieldNameTokens.Skip(1).Any() ? "are" : "is");
 				context.ReportDiagnostic(diagnostic);
 			}
 		}
