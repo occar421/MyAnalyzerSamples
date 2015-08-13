@@ -17,7 +17,7 @@ namespace AnalyzerTests
 		private static readonly string Description = "Using public field is usually bad implemention.";
 		private const string Category = "PublicField.CSharp.Suggestion";
 
-		internal static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, Description);
+		internal static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
 
 		public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
 		{
