@@ -38,8 +38,7 @@ namespace AnalyzerTests
 
 			if (field.Modifiers.Any(SyntaxKind.PublicKeyword) && !field.Modifiers.Any(SyntaxKind.ConstKeyword))
 			{
-				var fieldNameTokens = field.DescendantNodes().OfType<VariableDeclaratorSyntax>()
-					.Select(x => x.ChildTokens().Where(xx => xx.IsKind(SyntaxKind.IdentifierToken)).Single());
+				var fieldNameTokens = field.Declaration.Variables.Select(x => x.Identifier);
 
 				var diagnostic = Diagnostic.Create(Rule, field.GetLocation(), string.Join(", ", fieldNameTokens.Select(x => $"\"{x}\"")), fieldNameTokens.Skip(1).Any() ? "are" : "is");
 				context.ReportDiagnostic(diagnostic);
