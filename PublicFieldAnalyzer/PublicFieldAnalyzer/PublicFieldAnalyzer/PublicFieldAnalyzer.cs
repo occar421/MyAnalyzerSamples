@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace AnalyzerTests
+namespace PublicFieldAnalyzer
 {
 	[DiagnosticAnalyzer(LanguageNames.CSharp)]
 	class PublicFieldAnalyzer : DiagnosticAnalyzer
